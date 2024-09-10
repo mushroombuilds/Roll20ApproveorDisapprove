@@ -1,0 +1,60 @@
+on("chat:message", function(msg) {
+    if (msg.type !== "api") return; // Only process API commands
+    const command = msg.content.split(" ")[0]; // Get the command (e.g., !approve or !disapprove)
+    const playerName = msg.who.trim(); // Get the player's display name
+
+    // Placeholder URLs for approve and disapprove images
+    const imageUrls = {
+        "Player 1": {
+            approve: "Player1ApprovesImage.com",
+            disapprove: "Player1DisapprovesImage.com"
+        },
+        "Player 2": {
+            approve: "Player2ApprovesImage.com",
+            disapprove: "Player2DisapprovesImage.com"
+        },
+        "Player 3": {
+            approve: "Player3ApprovesImage.com",
+            disapprove: "Player3DisapprovesImage.com"
+        },
+        "Player 4": {
+            approve: "Player4ApprovesImage.com",
+            disapprove: "Player4DisapprovesImage.com"
+        },
+        "Player 5": {
+            approve: "Player5ApprovesImage.com",
+            disapprove: "Player5DisapprovesImage.com"
+        },
+        "Player 6": {
+            approve: "Player6ApprovesImage.com",
+            disapprove: "Player6DisapprovesImage.com"
+        },
+        "NPC1": {
+            approve: "NPC1ApprovesImage.com",
+            disapprove: "NPC1DisapprovesImage.com"
+        },
+        "NPC2": {
+            approve: "NPC2ApprovesImage.com",
+            disapprove: "NPC2DisapprovesImage.com"
+        }
+    };
+
+    // Check if player name exists in the imageUrls object
+    if (imageUrls[playerName]) {
+        let imageUrl = '';
+        if (command === '!approve') {
+            imageUrl = imageUrls[playerName].approve;
+        } else if (command === '!disapprove') {
+            imageUrl = imageUrls[playerName].disapprove;
+        }
+
+        if (imageUrl) {
+            // Send the image in chat
+            sendChat(playerName, "/direct <img src='" + imageUrl + "' style='max-width: 100px;' />");
+        } else {
+            sendChat("API", "/w " + playerName + " Unknown command. Please use !approve or !disapprove.");
+        }
+    } else {
+        sendChat("API", "/w " + playerName + " You don't have assigned images.");
+    }
+});
